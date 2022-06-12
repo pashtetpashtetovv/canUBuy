@@ -1,0 +1,15 @@
+spring:
+  h2:
+    console:
+      enabled : true
+  datasource:
+    url : jdbc:h2:~/db/canUBuyDB
+    driverClassName : org.h2.Driver
+    username : rootCanUBuy
+    password : LetMeInLETMEINNN
+  jpa:
+    database-platform : org.hibernate.dialect.H2Dialect
+    defer-datasource-initialization : true
+    generate-ddl : true
+    hibernate:
+      ddl-auto : create-drop

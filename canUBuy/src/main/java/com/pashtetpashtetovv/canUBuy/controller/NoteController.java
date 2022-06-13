@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import com.pashtetpashtetovv.canUBuy.repository.NoteRepository;
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("note")
 class NoteController {
 

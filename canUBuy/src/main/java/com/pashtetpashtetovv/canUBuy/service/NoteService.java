@@ -1,4 +1,4 @@
-package com.pashtetpashtetovv.canUBuy;
+package com.pashtetpashtetovv.canUBuy.service;
 
 import org.springframework.stereotype.Service;
 

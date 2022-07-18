@@ -1,0 +1,28 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>That is all we've got!</title>
+</head>
+
+<body>
+
+<p><a href="/note/creationPage">Add a new note</a></p>
+<table>
+    <thead>
+    <tr>
+        <th>id</th>
+        <th>Name</th>
+        <th>Description</th>>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="note : ${notesList}">
+        <td th:text="${note.id}"></td>
+        <td th:text="${note.title}"></td>
+        <td th:text="${note.description}"></td>
+    </tr>
+</table>
+</body>
+
+</html>

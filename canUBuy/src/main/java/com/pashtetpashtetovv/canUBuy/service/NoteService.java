@@ -1,10 +1,26 @@
 package com.pashtetpashtetovv.canUBuy.service;
 
+import com.pashtetpashtetovv.canUBuy.domain.Note;
+import com.pashtetpashtetovv.canUBuy.repository.NoteRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.List;
 
 @Service
 public class NoteService {
 
+    @Autowired
+    private final NoteRepository noteRepo;
 
+    public NoteService(NoteRepository noteRepo){
+        this.noteRepo = noteRepo;
+    }
 
+    public List<Note> findAllNotes(){
+        return noteRepo.findAll();
+    }
+
+    public Note createNote(Note note){
+        return noteRepo.save(note);
+    }
 }

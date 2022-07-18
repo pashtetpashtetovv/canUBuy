@@ -15,15 +15,29 @@ public class Note {
 
     private String title;
 
+    private String description;
+
     public Note(){}
 
-    public Note(String title){
+    public Note(String title, String description){
+        this.description = description;
+        this.title = title;
+    }
 
+    public Note(String title){
         this.title = title;
     }
 
     public Long getId() {
         return id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public void setId(Long id) {
@@ -45,6 +59,6 @@ public class Note {
 
     @Override
     public String toString() {
-        return String.format("Note: id - %d, title - %s", this.id, this.title);
+        return String.format("Note: id: %d, title: %s, description: %s", this.id, this.title, this.description);
     }
 }

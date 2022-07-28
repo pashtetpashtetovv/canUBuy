@@ -1,13 +1,16 @@
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 
-<head>
+<head >
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>That is all we've got!</title>
 </head>
 
 <body>
 
-<p><a href="/note/creationPage">Add a new note</a></p>
+<p><a href="/note/creationPage">Add a new note</a></p>>
+
 <table>
     <thead>
     <tr>
@@ -19,7 +22,13 @@
     <tbody>
     <tr th:each="note : ${notesList}">
         <td th:text="${note.id}"></td>
-        <td th:text="${note.title}"></td>
+        <!--td th:text="${note.title}"></td-->
+        <td>
+            <a th:href="@{/note/{id}(id=${note.id})}">
+                <span th:text="${note.title}"></span>
+            </a>
+
+        </td>
         <td th:text="${note.description}"></td>
     </tr>
 </table>

@@ -5,6 +5,7 @@ import com.pashtetpashtetovv.canUBuy.repository.NoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class NoteService {
@@ -22,5 +23,9 @@ public class NoteService {
 
     public Note createNote(Note note){
         return noteRepo.save(note);
+    }
+
+    public Optional<Note> findById(Long id){
+        return noteRepo.findById(id);
     }
 }

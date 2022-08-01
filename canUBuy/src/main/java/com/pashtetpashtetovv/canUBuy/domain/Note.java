@@ -1,30 +1,34 @@
 package com.pashtetpashtetovv.canUBuy.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import org.springframework.stereotype.Component;
+
+import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
+@Component
 public class Note {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String title;
+    private StringBuffer title;
 
-    private String description;
+    private StringBuffer description;
+
+    @OneToMany(targetEntity=Line.class, cascade = CascadeType.ALL, mappedBy="note", fetch=FetchType.EAGER)
+    private List<Line> lines;
 
     public Note(){}
 
-    public Note(String title, String description){
+    public Note(StringBuffer title, StringBuffer description){
         this.description = description;
         this.title = title;
     }
 
-    public Note(String title){
+    public Note(StringBuffer title){
         this.title = title;
     }
 
@@ -32,11 +36,11 @@ public class Note {
         return id;
     }
 
-    public String getDescription() {
+    public StringBuffer getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(StringBuffer description) {
         this.description = description;
     }
 
@@ -44,11 +48,11 @@ public class Note {
         this.id = id;
     }
 
-    public String getTitle() {
+    public StringBuffer getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(StringBuffer title) {
         this.title = title;
     }
 

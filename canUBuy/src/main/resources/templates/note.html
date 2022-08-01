@@ -23,6 +23,32 @@
     </tr>
 </table>
 
+<p>//////////////////////////</p>
+
+<table>
+    <thead>
+    <tr>
+        <th>id</th>
+        <th>Name</th>
+        <th>Description</th>>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="note : ${notesList}">
+        <td th:text="${note.id}"></td>
+        <!--td th:text="${note.title}"></td-->
+        <td>
+            <a th:href="@{/note/{id}(id=${note.id})}">
+                <span th:text="${note.title}"></span>
+            </a>
+
+        </td>
+        <td th:text="${note.description}"></td>
+    </tr>
+</table>
+
+
+
 <p><a href="/note/getAll">Return to list of all notes</a></p>
 </body>
 

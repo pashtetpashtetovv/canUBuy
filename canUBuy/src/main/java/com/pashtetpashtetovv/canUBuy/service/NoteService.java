@@ -17,7 +17,7 @@ public class NoteService {
         this.noteRepo = noteRepo;
     }
 
-    public List<Note> findAllNotes(){
+    public List<Note> findAll(){
         return noteRepo.findAll();
     }
 

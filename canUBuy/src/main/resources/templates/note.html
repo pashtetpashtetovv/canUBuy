@@ -1,55 +1,54 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 
-<head>
-    <title>Note obj</title>
-</head>
+    <head>
+        <title>Note obj</title>
+    </head>
 
-<body>
+    <body>
 
-<table>
-    <thead>
-    <tr>
-        <th>id</th>
-        <th>Name</th>
-        <th>Description</th>>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <td th:text="${note.id}"></td>
-        <td th:text="${note.title}"></td>
-        <td th:text="${note.description}"></td>
-    </tr>
-</table>
+    <table>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>Name</th>
+            <th>Description</th>>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td th:text="${note.id}"></td>
+            <td th:text="${note.title}"></td>
+            <td th:text="${note.description}"></td>
+        </tr>
+    </table>
 
-<p>//////////////////////////</p>
+    <p>//////////////////////////</p>
 
-<table>
-    <thead>
-    <tr>
-        <th>id</th>
-        <th>Name</th>
-        <th>Description</th>>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="note : ${notesList}">
-        <td th:text="${note.id}"></td>
-        <!--td th:text="${note.title}"></td-->
-        <td>
-            <a th:href="@{/note/{id}(id=${note.id})}">
-                <span th:text="${note.title}"></span>
-            </a>
+    <p>//////////////////////////</p>
+    <p>INNER LINES</p>
+    <table>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>Name</th>
+            <th>Description</th>>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="line : ${linesList}">
+            <td th:text="${line.id}"></td>
+            <!--td th:text="${note.title}"></td-->
+            <td th:text="${line.description}"></td>
+        </tr>
+        </tbody>>
+    </table>
+    <form action="#" th:action="@{/line/create?noteID=} + ${note.id}" th:object="${line}" method="post">
+        <p> description: <input type="text" th:field="*{description}" /></p>
+        <p><input type="submit" value="Submit" />
+    </form>
 
-        </td>
-        <td th:text="${note.description}"></td>
-    </tr>
-</table>
-
-
-
-<p><a href="/note/getAll">Return to list of all notes</a></p>
-</body>
+    <p><a href="/note/getAll">Return to list of all notes</a></p>
+    </body>
 
 </html>

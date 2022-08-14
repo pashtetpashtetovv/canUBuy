@@ -24,7 +24,7 @@ public class LineService {
     }
 
     public Line create(Line line){
-        return lineRepo.saveAndFlush(line);
+        return lineRepo.save(line);
     }
 
     public List<Line> findByNote(Note note){

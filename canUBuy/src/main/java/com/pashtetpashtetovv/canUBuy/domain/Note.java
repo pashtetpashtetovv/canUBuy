@@ -14,21 +14,21 @@ public class Note {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private StringBuffer title;
+    private String title;
 
-    private StringBuffer description;
+    private String description;
 
     @OneToMany(targetEntity=Line.class, cascade = CascadeType.ALL, mappedBy="note", fetch=FetchType.EAGER)
     private List<Line> lines;
 
     public Note(){}
 
-    public Note(StringBuffer title, StringBuffer description){
+    public Note(String title, String description){
         this.description = description;
         this.title = title;
     }
 
-    public Note(StringBuffer title){
+    public Note(String title){
         this.title = title;
     }
 
@@ -36,11 +36,11 @@ public class Note {
         return id;
     }
 
-    public StringBuffer getDescription() {
+    public String getDescription() {
         return description;
     }
 
-    public void setDescription(StringBuffer description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 
@@ -48,12 +48,16 @@ public class Note {
         this.id = id;
     }
 
-    public StringBuffer getTitle() {
+    public String getTitle() {
         return title;
     }
 
-    public void setTitle(StringBuffer title) {
+    public void setTitle(String title) {
         this.title = title;
+    }
+
+    public List<Line> getLines() {
+        return lines;
     }
 
     @Override

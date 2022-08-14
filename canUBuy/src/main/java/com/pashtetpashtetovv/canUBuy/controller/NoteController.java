@@ -1,5 +1,6 @@
 package com.pashtetpashtetovv.canUBuy.controller;
 
+import com.pashtetpashtetovv.canUBuy.domain.Line;
 import com.pashtetpashtetovv.canUBuy.domain.Note;
 import com.pashtetpashtetovv.canUBuy.service.LineService;
 import com.pashtetpashtetovv.canUBuy.service.NoteService;
@@ -47,8 +48,9 @@ class NoteController {
     @GetMapping("/{id}")
     public String getOne(@PathVariable Long id, Model model){
         final Note note = noteService.findById(id).get();
+        model.addAttribute("line", new Line());
         model.addAttribute("note", note);
-        //model.addAttribute("linesList", lineService.findByNote(note));
+        model.addAttribute("linesList", lineService.findByNote(note));
         return "note";
     }
 

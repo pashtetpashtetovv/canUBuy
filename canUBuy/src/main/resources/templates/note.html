@@ -23,7 +23,6 @@
         </tr>
     </table>
 
-    <p>//////////////////////////</p>
 
     <p>//////////////////////////</p>
     <p>INNER LINES</p>
@@ -31,7 +30,6 @@
         <thead>
         <tr>
             <th>id</th>
-            <th>Name</th>
             <th>Description</th>>
         </tr>
         </thead>
@@ -43,6 +41,8 @@
         </tr>
         </tbody>>
     </table>
+    <br>
+    <p>Create new line: </p>
     <form action="#" th:action="@{/line/create?noteID=} + ${note.id}" th:object="${line}" method="post">
         <p> description: <input type="text" th:field="*{description}" /></p>
         <p><input type="submit" value="Submit" />

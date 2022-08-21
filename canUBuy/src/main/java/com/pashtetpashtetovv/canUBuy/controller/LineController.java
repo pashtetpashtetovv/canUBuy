@@ -5,10 +5,13 @@ import com.pashtetpashtetovv.canUBuy.domain.Note;
 import com.pashtetpashtetovv.canUBuy.service.LineService;
 import com.pashtetpashtetovv.canUBuy.service.NoteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.NoSuchElementException;
 
 @Controller
 @RequestMapping("line")
@@ -37,6 +40,16 @@ public class LineController {
         Line newLine = lineService.create(line);
         redirectAttributes.addAttribute("noteID", noteID);
         return "redirect:/note/{noteID}";
+    }
+    @DeleteMapping("/delete")
+    @ResponseBody
+    public HttpStatus delete(@RequestParam Long lineID){
+        try {
+            lineService.delete(lineID);
+        } catch(NoSuchElementException e) {
+            return HttpStatus.NO_CONTENT;
+        }
+        return HttpStatus.OK;
     }
 
 }

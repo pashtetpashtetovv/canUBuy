@@ -39,9 +39,9 @@
             <!--td th:text="${note.title}"></td-->
             <td th:text="${line.description}"></td>
             <td>
-                <form th:action="@{/line/delete?lineID=} + ${line.id}" th:object="${line}" method="delete">
-                    <input type="hidden" th:field="${line}">Delete</input>
-                    <button type="submit" onClick="return confirm('sure?')"/>
+                <form action="#" th:action="@{/line/delete?lineID=} + ${line.id}" method="post">
+                    <input type="hidden" value="${line}">
+                    <button type="submit" onclick="sure?">Delete</button>
                 </form>
             </td>
         </tr>

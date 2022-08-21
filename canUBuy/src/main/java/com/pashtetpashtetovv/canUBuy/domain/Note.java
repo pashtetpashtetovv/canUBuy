@@ -18,7 +18,7 @@ public class Note {
 
     private String description;
 
-    @OneToMany(targetEntity=Line.class, cascade = CascadeType.ALL, mappedBy="note", fetch=FetchType.EAGER)
+    @OneToMany(targetEntity=Line.class, cascade = CascadeType.ALL, mappedBy="note", orphanRemoval = true)
     private List<Line> lines;
 
     public Note(){}

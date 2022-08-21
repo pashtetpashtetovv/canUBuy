@@ -20,7 +20,7 @@ public class Line {
     private String description;
 
     @Autowired
-    @ManyToOne(targetEntity = Note.class)
+    @ManyToOne(targetEntity = Note.class, fetch = FetchType.LAZY)
     private Note note;
 
     /*

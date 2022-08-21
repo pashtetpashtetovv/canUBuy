@@ -34,9 +34,7 @@ public class LineService {
     }
 
     public void delete(Long id){
-        Line lineToDelete = getById(id);
-        lineRepo.delete(lineToDelete);
-        lineRepo.flush();
+        lineRepo.deleteById(id);
     }
 }
 

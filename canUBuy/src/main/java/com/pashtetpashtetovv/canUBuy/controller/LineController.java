@@ -41,7 +41,8 @@ public class LineController {
         redirectAttributes.addAttribute("noteID", noteID);
         return "redirect:/note/{noteID}";
     }
-    @DeleteMapping("/delete")
+
+    /*@DeleteMapping("/delete")
     @ResponseBody
     public HttpStatus delete(@RequestParam Long lineID){
         try {
@@ -51,5 +52,17 @@ public class LineController {
         }
         return HttpStatus.OK;
     }
+    */
+    @PostMapping("/delete")
+    public String delete(@RequestParam Long lineID, Model model, RedirectAttributes redirectAttributes){
+        try {
+            Note note = lineService.getById(lineID).getNote();
+            lineService.delete(lineID);
+            redirectAttributes.addAttribute("noteID", note.getId());
+            return "redirect:/note/{noteID}";
+        } catch(NoSuchElementException e) {
+            return null;
+        }
 
+    }
 }

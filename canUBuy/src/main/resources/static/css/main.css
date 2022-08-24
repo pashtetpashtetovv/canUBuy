@@ -1,0 +1,18 @@
+.container{
+    margin: 2%;
+    text-align: center;
+}
+.head{
+    margin: 1%;
+    text-align: center;
+}
+.submit-button{
+    font-size: 12px;
+    padding: 10px 10px;
+    background-color: #d1f7a8;
+}
+.delete-button{
+    font-size: 12px;
+    padding: 7px 9px;
+    background-color: #f7a7a1;
+}

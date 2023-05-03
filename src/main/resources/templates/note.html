@@ -1,0 +1,56 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <title th:text="${note.title}"></title>
+        <link rel="stylesheet" th:href="@{/css/main.css}" />
+    </head>
+
+    <body>
+        <header>
+            <div class = "head">
+                <h1 th:text="${note.title}"> </h1>
+                <h3 th:text="${note.description}"></h3>
+            </div>
+        </header>
+
+        <div class = "container">
+            <h4>INNER LINES</h4>
+
+            <table align="center">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Description</th>
+                    <th>*</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="line : ${linesList}">
+                    <td th:text="${line.id}"></td>
+                    <!--td th:text="${note.title}"></td-->
+                    <td th:text="${line.description}"></td>
+                    <td>
+                        <form action="#" th:action="@{/line/delete?lineID=} + ${line.id}" method="post">
+                            <!--input type="hidden" value="${line}"-->
+                            <button class="delete-button" type="submit" onclick="sure?">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <br>
+            <p>Create new line: </p>
+            <form action="#" th:action="@{/line/create?noteID=} + ${note.id}" th:object="${line}" method="post">
+                <p> description: <input type="text" th:field="*{description}" /></p>
+                <p><input class="submit-button" type="submit" value="Submit" />
+            </form>
+        </div>
+        <footer>
+            <div class = "container">
+                <p><a href="/note/getAll">Return to list of all notes</a></p>
+            </div>>
+        </footer>
+    </body>
+
+</html>

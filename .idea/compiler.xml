@@ -9,9 +9,6 @@
         <module name="canUBuy" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="canUBuy" target="11" />
-    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">

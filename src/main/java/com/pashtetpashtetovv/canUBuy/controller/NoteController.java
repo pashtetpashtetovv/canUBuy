@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import com.pashtetpashtetovv.canUBuy.repository.NoteRepository;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.NoSuchElementException;
+
 @Controller
 @RequestMapping("note")
 class NoteController {
@@ -33,7 +35,7 @@ class NoteController {
     @GetMapping("/creationPage")
     public String createNote(Model model){
         model.addAttribute("note", new Note());
-        return "creationPage";
+        return "noteCreationPage";
     }
     @PostMapping("/create")
     public String create(@ModelAttribute Note note, Model model, RedirectAttributes redirectAttributes){
@@ -58,6 +60,17 @@ class NoteController {
     public String getAll(Model model){
         model.addAttribute("notesList", noteService.findAll());
         return "allNotes";
+    }
+
+    @PostMapping("/delete")
+    public String delete(@RequestParam Long noteID, Model model, RedirectAttributes redirectAttributes) {
+        try {
+            noteService.delete(noteID);
+            //redirectAttributes.addAttribute("noteID", note.getId());
+            return "redirect:/note/getAll";
+        } catch (NoSuchElementException e) {
+            return null;
+        }
     }
 
 }

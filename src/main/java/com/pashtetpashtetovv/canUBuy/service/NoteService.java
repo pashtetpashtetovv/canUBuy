@@ -28,4 +28,8 @@ public class NoteService {
     public Optional<Note> findById(Long id){
         return noteRepo.findById(id);
     }
+
+    public void delete(Long id){
+        noteRepo.deleteById(id);
+    }
 }

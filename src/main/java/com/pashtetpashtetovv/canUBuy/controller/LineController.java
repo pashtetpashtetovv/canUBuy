@@ -1,11 +1,10 @@
 package com.pashtetpashtetovv.canUBuy.controller;
 
-import com.pashtetpashtetovv.canUBuy.domain.Line;
-import com.pashtetpashtetovv.canUBuy.domain.Note;
+import com.pashtetpashtetovv.canUBuy.domain.model.Line;
+import com.pashtetpashtetovv.canUBuy.domain.model.Note;
 import com.pashtetpashtetovv.canUBuy.service.LineService;
 import com.pashtetpashtetovv.canUBuy.service.NoteService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -36,7 +35,7 @@ public class LineController {
     }
     @PostMapping("/create")
     public String create(@ModelAttribute Line line, @RequestParam Long noteID, Model model, RedirectAttributes redirectAttributes){
-        line.setNote(noteService.findById(noteID).get());
+        line.setNote(noteService.findById(noteID));
         Line newLine = lineService.create(line);
         redirectAttributes.addAttribute("noteID", noteID);
         return "redirect:/note/{noteID}";

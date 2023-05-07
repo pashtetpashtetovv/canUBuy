@@ -4,7 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class IndexController {
+public class MainController {
 
     @GetMapping({"/", "/main", "/index", "/home"})
     public String getIndex(){
@@ -15,4 +15,15 @@ public class IndexController {
     public String getAbout(){
         return "about";
     }
+
+    @GetMapping("/login")
+    public String getLoginPage(){
+        return "login";
+    }
+
+    @GetMapping
+    public String empty(){
+        return "empty";
+    }
+
 }

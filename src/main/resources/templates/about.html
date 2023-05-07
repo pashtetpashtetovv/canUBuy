@@ -26,6 +26,11 @@
                     <a class="nav-link active" href="/about">About</a>
                 </li>
             </ul>
+            <div class="d-flex">
+                <a th:if="${#authentication.name != 'anonymousUser'}" class="btn btn-primary btn-sm me-2" th:text="${#authentication.name}"
+                   th:href="@{/user/{login}(login=${#authentication.name})}"></a>
+                <a th:if="${#authentication.name != 'anonymousUser'}" href="/logout" class="btn btn-primary btn-sm me-2">Logout</a>
+            </div>
         </div>
     </div>
 </nav>

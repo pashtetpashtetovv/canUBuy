@@ -1,8 +1,8 @@
-package com.pashtetpashtetovv.canUBuy.domain;
+package com.pashtetpashtetovv.canUBuy.domain.model;
 
 import org.springframework.stereotype.Component;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.List;
 import java.util.Objects;
 
@@ -21,11 +21,24 @@ public class Note {
     @OneToMany(targetEntity=Line.class, cascade = CascadeType.ALL, mappedBy="note", orphanRemoval = true)
     private List<Line> lines;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "owner")
+    private User owner;
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
+
     public Note(){}
 
-    public Note(String title, String description){
+    public Note(String title, String description, User owner){
         this.description = description;
         this.title = title;
+        this.owner = owner;
     }
 
     public Note(String title){

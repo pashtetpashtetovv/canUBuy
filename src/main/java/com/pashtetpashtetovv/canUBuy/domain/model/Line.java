@@ -1,17 +1,13 @@
-package com.pashtetpashtetovv.canUBuy.domain;
+package com.pashtetpashtetovv.canUBuy.domain.model;
 
-import com.pashtetpashtetovv.canUBuy.service.NoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 @Component
 public class Line {
-
-    //@Autowired
-    //private final NoteService noteService;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,15 +18,6 @@ public class Line {
     @Autowired
     @ManyToOne(targetEntity = Note.class, fetch = FetchType.LAZY)
     private Note note;
-
-    /*
-    public Line(NoteService noteService, Long id, StringBuffer description, Long noteId){
-        this.noteService = noteService;
-        this.id = id;
-        this.description = description;
-        this.note = this.noteService.findById(noteId).get();
-    }
-    */
 
     public Long getId() {
         return id;

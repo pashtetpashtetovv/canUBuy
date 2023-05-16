@@ -38,8 +38,11 @@
 <div class="position-absolute top-50 start-50 translate-middle">
     <h1 class="text-center">All in one place!</h1>
     <p class="fs-5 text-center">Don`t forget anything! Keep your thoughts in one place 🥸</p>
-    <div class="position-relative py-4 px-4">
-        <a href="/note/getAll" class="btn btn-primary btn-lg px-5 position-absolute start-50 translate-middle">Start</a>
+    <div th:if="${#authentication.name == 'anonymousUser'}" class="position-relative py-4 px-4">
+        <a href="/login" class="btn btn-primary btn-lg px-5 position-absolute start-50 translate-middle">Sign in</a>
+    </div>
+    <div th:if="${#authentication.name == 'anonymousUser'}" class="position-relative py-4 px-4 mt-3">
+        <a href="/user/signup" class="btn btn-primary btn-lg px-5 position-absolute start-50 translate-middle">Sign up</a>
     </div>
 </div>
 </main>

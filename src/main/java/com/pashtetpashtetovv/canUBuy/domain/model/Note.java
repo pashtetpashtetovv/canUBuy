@@ -25,14 +25,6 @@ public class Note {
     @JoinColumn(name = "owner")
     private User owner;
 
-    public User getOwner() {
-        return owner;
-    }
-
-    public void setOwner(User owner) {
-        this.owner = owner;
-    }
-
     public Note(){}
 
     public Note(String title, String description, User owner){
@@ -43,6 +35,14 @@ public class Note {
 
     public Note(String title){
         this.title = title;
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
     }
 
     public Long getId() {

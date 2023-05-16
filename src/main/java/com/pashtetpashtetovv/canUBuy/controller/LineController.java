@@ -36,32 +36,16 @@ public class LineController {
     @PostMapping("/create")
     public String create(@ModelAttribute Line line, @RequestParam Long noteID, Model model, RedirectAttributes redirectAttributes){
         line.setNote(noteService.findById(noteID));
-        Line newLine = lineService.create(line);
+        lineService.create(line);
         redirectAttributes.addAttribute("noteID", noteID);
         return "redirect:/note/{noteID}";
     }
 
-    /*@DeleteMapping("/delete")
-    @ResponseBody
-    public HttpStatus delete(@RequestParam Long lineID){
-        try {
-            lineService.delete(lineID);
-        } catch(NoSuchElementException e) {
-            return HttpStatus.NO_CONTENT;
-        }
-        return HttpStatus.OK;
-    }
-    */
     @PostMapping("/delete")
     public String delete(@RequestParam Long lineID, Model model, RedirectAttributes redirectAttributes){
-        try {
-            Note note = lineService.getById(lineID).getNote();
-            lineService.delete(lineID);
-            redirectAttributes.addAttribute("noteID", note.getId());
-            return "redirect:/note/{noteID}";
-        } catch(NoSuchElementException e) {
-            return null;
-        }
-
+        Note note = lineService.getById(lineID).getNote();
+        lineService.delete(lineID);
+        redirectAttributes.addAttribute("noteID", note.getId());
+        return "redirect:/note/{noteID}";
     }
 }

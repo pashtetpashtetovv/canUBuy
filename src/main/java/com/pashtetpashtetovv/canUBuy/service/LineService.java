@@ -3,6 +3,7 @@ package com.pashtetpashtetovv.canUBuy.service;
 import com.pashtetpashtetovv.canUBuy.domain.model.Line;
 import com.pashtetpashtetovv.canUBuy.domain.model.Note;
 import com.pashtetpashtetovv.canUBuy.repository.LineRepository;
+import com.pashtetpashtetovv.canUBuy.utils.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,10 +13,17 @@ import java.util.List;
 public class LineService {
 
     @Autowired
-    private LineRepository lineRepo;
+    private final LineRepository lineRepo;
+
+    public LineService(LineRepository lineRepo) {
+        this.lineRepo = lineRepo;
+    }
 
     public Line getById(Long id){
-        return lineRepo.findById(id).get();
+        return lineRepo.findById(id)
+                .orElseThrow(
+                        ()-> new NotFoundException(String.format("Line with id: %d not found", id))
+                );
     }
 
     public List<Line> findAll(){

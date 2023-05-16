@@ -29,67 +29,82 @@
                 </li>
             </ul>
             <div class="d-flex">
-                <a th:if="${#authentication.name != 'anonymousUser'}" class="btn btn-primary btn-sm me-2" th:text="${#authentication.name}"
+                <a th:if="${#authentication.name != 'anonymousUser'}" class="btn btn-primary btn-sm me-2"
+                   th:text="${#authentication.name}"
                    th:href="@{/user/{login}(login=${#authentication.name})}"></a>
-                <a th:if="${#authentication.name != 'anonymousUser'}" href="/logout" class="btn btn-primary btn-sm me-2">Logout</a>
+                <a th:if="${#authentication.name != 'anonymousUser'}" href="/logout"
+                   class="btn btn-primary btn-sm me-2">Logout</a>
             </div>
         </div>
     </div>
 </nav>
-<main>
-    <div class="container text-center">
-        <div class="row mt-2">
-            <div class="col-2"></div>
-            <div class="col-8">
-                <h1 class="text-center" th:text="${note.title}"></h1>
-                <h3 class="text-center mt-2 mb-2" th:text="${note.description}"></h3>
-                <!--a href="/note/getAll"
-                   class="btn btn-secondary btn-sm px-2">See all notes</a-->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="container text-center">
+                <div class="row mt-2">
+                    <div class="col-2"></div>
+                    <div class="col-8">
+                        <h1> Title: <span class="text-center" th:text="${note.title}"></span></h1>
+                        <h3> Description: <span class="text-center mt-2 mb-2" th:text="${note.description}"></span></h3>
+                        <!--a href="/note/getAll"
+                           class="btn btn-secondary btn-sm px-2">See all notes</a-->
+                    </div>
+                    <div class="col-2"></div>
+                </div>
+                <div class="row">
+                    <div class="col-2"></div>
+                    <div class="col-8">
+                        <table class="table table-borderless table-hover">
+                            <thead>
+                            <tr>
+                                <th class="text-center col-2" style="width: 10%">#</th>
+                                <th class="text-center col-9" style="width: 80%">Line content</th>
+                                <th class="text-center col-1" style="width: 10%">*</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="line, status : ${linesList}">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <td class="text-center" th:text="${status.count}"></td>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <td class="text-center" th:text="${line.description}"></td>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <td class="text-center">
+                                            <form action="#" th:action="@{/line/delete?lineID=} + ${line.id}"
+                                                  method="post">
+                                                <button class="btn btn-primary bt-sm" type="submit">Delete</button>
+                                            </form>
+                                        </td>
+                                    </div>
+                            </tr>
+                            <tr>
+                                <td class="text-center"></td>
+                                <td>
+                                    <form action="#" th:action="@{/line/create?noteID=} + ${note.id}"
+                                          th:object="${line}"
+                                          method="post">
+                                        <div class="form-group">
+                                            <label for="createRowDescr">Create new line:</label>
+                                            <input maxlength="255" autofocus type="text" class="form-control"
+                                                   id="createRowDescr"
+                                                   placeholder="Enter text here" th:field="*{description}" required/>
+                                        </div>
+                                        <input class="btn btn-primary btn-md px-4 text-center mt-4" type="submit"
+                                               value="Add"/>
+                                    </form>
+                                </td>
+                                <td class="text-center"></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-2"></div>
+                </div>
             </div>
-            <div class="col-2"></div>
-        </div>
-        <div class="row">
-            <div class="col-2"></div>
-            <div class="col-8">
-                <table class="table table-borderless table-hover">
-                    <thead>
-                    <tr>
-                        <th class="text-center col-2" style="width: 10%">#</th>
-                        <th class="text-center col-9" style="width: 80%">Description</th>
-                        <th class="text-center col-1" style="width: 10%">*</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="line, status : ${linesList}">
-                        <td class="text-center" th:text="${status.count}"></td>
-                        <td class="text-center" th:text="${line.description}"></td>
-                        <td class="text-center">
-                            <form action="#" th:action="@{/line/delete?lineID=} + ${line.id}" method="post">
-                                <button class="btn btn-primary bt-sm" type="submit">Delete</button>
-                            </form>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="text-center"></td>
-                        <td>
-                            <form action="#" th:action="@{/line/create?noteID=} + ${note.id}" th:object="${line}"
-                                  method="post">
-                                <div class="form-group">
-                                    <label for="createRowDescr">Create new line:</label>
-                                    <input type="text" class="form-control" id="createRowDescr"
-                                           placeholder="Enter text here" th:field="*{description}" required/>
-                                </div>
-                                <input class="btn btn-primary btn-md px-4 text-center mt-4" type="submit" value="Add"/>
-                            </form>
-                        </td>
-                        <td class="text-center"></td>
-                    </tr>
-                </table>
-            </div>
-            <div class="col-2"></div>
         </div>
     </div>
-</main>
 <nav class="navbar fixed-bottom bg-body-tertiary text-center">
     <div class="container-fluid">
         <p></p>

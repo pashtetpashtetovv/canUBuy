@@ -2,6 +2,8 @@ package com.pashtetpashtetovv.canUBuy.domain.model;
 
 import com.pashtetpashtetovv.canUBuy.config.security.role.Role;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,15 +19,27 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Length(min = 4, max = 45)
     @Column(nullable = false, unique = true)
     private String login;
 
+    @Length(min = 6, max = 255)
     private String password;
 
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
     private Set<Note> notes;
 
     private Set<Role> roles;
+
+    public User() {
+    }
+
+    public User(Long id, String login, String password, Set<Note> notes) {
+        this.id = id;
+        this.login = login;
+        this.password = password;
+        this.notes = notes;
+    }
 
     public Set<Role> getRoles() {
         return roles;
@@ -117,16 +131,6 @@ public class User implements UserDetails {
 
         if (!getId().equals(user.getId())) return false;
         return getLogin().equals(user.getLogin());
-    }
-
-    public User() {
-    }
-
-    public User(Long id, String login, String password, Set<Note> notes) {
-        this.id = id;
-        this.login = login;
-        this.password = password;
-        this.notes = notes;
     }
 
     @Override

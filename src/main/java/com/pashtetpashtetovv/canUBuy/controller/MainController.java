@@ -22,7 +22,7 @@ public class MainController {
     }
 
     @GetMapping
-    public String empty(){
+    public String getEmpty(){
         return "empty";
     }
 

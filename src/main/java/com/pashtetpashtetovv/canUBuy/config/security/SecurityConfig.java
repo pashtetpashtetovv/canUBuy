@@ -20,10 +20,9 @@ public class SecurityConfig {
                 .csrf().disable()
                 .authorizeHttpRequests()
                 .requestMatchers(toH2Console()).permitAll()
-                .requestMatchers("/", "/home", "/index", "/main", "/about", "/registration", "/h2-console/**")
+                .requestMatchers("/", "/home", "/index", "/main", "/about", "/registration", "/user/signup", "/h2-console/**")
                 .permitAll()
-                .requestMatchers("/empty").hasAuthority("ADMIN")
-                .anyRequest().authenticated()
+                .requestMatchers("/**").authenticated()
                 .and()
                 .headers()
                 .frameOptions()
@@ -32,10 +31,10 @@ public class SecurityConfig {
                 .logout()
                 .and()
                 //.formLogin();
-                .formLogin((form) -> form
-                        .loginPage("/login")
-                        .permitAll()
-                );
+                .formLogin()
+                    .defaultSuccessUrl("/note/getAll")
+                    .loginPage("/login")
+                    .permitAll();
         return http.build();
     }
 

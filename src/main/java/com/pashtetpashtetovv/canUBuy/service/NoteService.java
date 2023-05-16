@@ -1,16 +1,17 @@
 package com.pashtetpashtetovv.canUBuy.service;
 
 import com.pashtetpashtetovv.canUBuy.domain.dto.NoteDto;
+import com.pashtetpashtetovv.canUBuy.domain.model.Line;
 import com.pashtetpashtetovv.canUBuy.domain.model.Note;
 import com.pashtetpashtetovv.canUBuy.utils.exception.NotFoundException;
 import com.pashtetpashtetovv.canUBuy.mapper.NoteMapper;
 import com.pashtetpashtetovv.canUBuy.repository.NoteRepository;
+import com.pashtetpashtetovv.canUBuy.utils.exception.RestrictedAccessException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
+
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class NoteService {
@@ -21,9 +22,13 @@ public class NoteService {
     @Autowired
     private final NoteMapper noteMapper;
 
-    public NoteService(NoteRepository noteRepo, NoteMapper noteMapper){
+    @Autowired
+    private final UserService userService;
+
+    public NoteService(NoteRepository noteRepo, NoteMapper noteMapper, UserService userService){
         this.noteRepo = noteRepo;
         this.noteMapper = noteMapper;
+        this.userService = userService;
     }
 
     public List<Note> findAll(){
@@ -35,32 +40,65 @@ public class NoteService {
     }
 
     public Note createNote(NoteDto dto){
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        dto.setOwnerLogin(auth.getName());
-        Note note = noteMapper.toEntity(dto);
+        dto.setOwnerLogin(userService.getAuthenticatedUsername());
+        final Note note = noteMapper.toEntity(dto);
         return noteRepo.save(note);
     }
 
     public Note findById(Long id){
-        return noteRepo.findById(id)
+        final Note note =  noteRepo.findById(id)
+                .orElseThrow(
+                        ()-> new NotFoundException(
+                                String.format("Note with id: %d not found", id)
+                        )
+                );
+
+        final String ownerLogin =
+                note.getOwner() == null ? null : note.getOwner().getLogin();
+
+        userService.isUserFreeToSeePage(ownerLogin);
+
+        return note;
+    }
+
+    public Note findById(Long id, Model model){
+        final Note note = noteRepo.findById(id)
                 .orElseThrow(
                         ()-> new NotFoundException(String.format("Note with id: %d not found", id))
                 );
+
+        final String ownerLogin =
+                note.getOwner() == null ? null : note.getOwner().getLogin();
+
+        userService.isUserFreeToSeePage(ownerLogin);
+
+        model.addAttribute("line", new Line());
+        model.addAttribute("note", note);
+        model.addAttribute("linesList", note.getLines());
+        return note;
     }
 
     public void delete(Long id){
+        if(id == null){
+            return;
+        }
         noteRepo.deleteById(id);
     }
 
     public List<Note> findByOwnerLogin(String login){
-        return noteRepo.findByOwner_LoginIgnoreCase(login);
+        return noteRepo.findByOwner_Login(login);
     }
 
     public List<Note> findByAuth(){
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if(auth == null){
-            throw new NotFoundException("User is Null!");
-        }
-        return findByOwnerLogin(auth.getName());
+        return findByOwnerLogin(
+                userService.getAuthenticatedUsername()
+        );
+    }
+
+    public List<Note> findByAuth(Model model){
+        model.addAttribute("notesList", findByAuth());
+        return findByOwnerLogin(
+                userService.getAuthenticatedUsername()
+        );
     }
 }

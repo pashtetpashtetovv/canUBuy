@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface NoteRepository extends JpaRepository<Note, Long> {
 
-    @Query("select n from Note n where upper(n.owner.login) = upper(?1)")
-    List<Note> findByOwner_LoginIgnoreCase(@NonNull String login);
+    @Query("select n from Note n where n.owner.login = upper(?1)")
+    List<Note> findByOwner_Login(@NonNull String login);
 
 }

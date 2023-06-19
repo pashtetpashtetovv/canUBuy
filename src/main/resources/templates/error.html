@@ -22,7 +22,7 @@
                     <a class="nav-link" aria-current="page" href="/">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/note/getAll">Notes</a>
+                    <a class="nav-link" href="/note/all">Notes</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/about">About</a>
@@ -49,6 +49,7 @@
             <div class="col-2"></div>
             <div class="col-8">
                 <h3 th:text="${message}"></h3>
+                <h3 th:if="${message == ''}" th:text="Unhandled exception, pls send report to us 📺"></h3>
                 <div class="position-relative py-4 px-4">
                     <a href="/" class="btn btn-primary btn-lg px-5 position-absolute start-50 translate-middle">To main page</a>
                 </div>

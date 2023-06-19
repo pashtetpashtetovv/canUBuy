@@ -2,8 +2,8 @@ package com.pashtetpashtetovv.canUBuy.config.security.role;
 
 public enum Role {
 
-    USER("USER"),
-    ADMIN("ADMIN");
+    USER("ROLE_USER"),
+    ADMIN("ROLE_ADMIN");
 
     private String code;
 

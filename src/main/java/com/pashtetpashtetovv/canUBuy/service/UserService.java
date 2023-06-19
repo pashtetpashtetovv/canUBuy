@@ -1,8 +1,11 @@
 package com.pashtetpashtetovv.canUBuy.service;
 
 import com.pashtetpashtetovv.canUBuy.config.security.role.Role;
+import com.pashtetpashtetovv.canUBuy.domain.dto.FriendRequestDTO;
 import com.pashtetpashtetovv.canUBuy.domain.model.User;
+import com.pashtetpashtetovv.canUBuy.mapper.UserMapper;
 import com.pashtetpashtetovv.canUBuy.repository.UserRepository;
+import com.pashtetpashtetovv.canUBuy.utils.exception.DuplicateException;
 import com.pashtetpashtetovv.canUBuy.utils.exception.NotFoundException;
 import com.pashtetpashtetovv.canUBuy.utils.exception.RestrictedAccessException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,38 +24,62 @@ import java.util.Optional;
 @Service
 public class UserService implements UserDetailsService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    private final PasswordEncoder passwordEncoder;
+
+    private FriendRequestService friendRequestService;
+
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    public FriendRequestService getFriendRequestService() {
+        return friendRequestService;
+    }
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    public void setFriendRequestService(FriendRequestService friendRequestService) {
+        this.friendRequestService = friendRequestService;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByLogin(username);
         if(user == null){
             throw new UsernameNotFoundException(
-                    String.format("User with login %s  not found", username)
-            );
+                    String.format("User with login %s  not found", username));
         }
         return user;
     }
 
-    public UserDetails loadUserByUsername(String username, Model model){
+    public UserDetails loadUserByUsernameAndAddToModel(String username, Model model){
         isUserFreeToSeePage(username);
         User user = (User) loadUserByUsername(username);
-        model.addAttribute("user", user);
+        model.addAttribute("user", UserMapper.toDto(user));
+        model.addAttribute("friendRequestDTO", new FriendRequestDTO());
+        model.addAttribute("friendRequests", friendRequestService.findByTarget(user));
         return user;
     }
 
     public User create(User user){
+
+        boolean loginDuplicated = userRepository.existsByLogin(user.getLogin());
+        if(loginDuplicated){
+            throw new DuplicateException(
+                    String.format("User with login %s already exist", user.getLogin())
+            );
+        }
+
         user.setPassword(
                 passwordEncoder.encode(user.getPassword())
         );
-        if(user.getRoles().isEmpty())
+        if(user.getRoles() == null) {
             user.setRoles(
                     Collections.singleton(Role.USER)
             );
+        }
         return userRepository.save(user);
     }
 
@@ -79,7 +106,7 @@ public class UserService implements UserDetailsService {
                 .anyMatch(
                         grantedAuthority ->
                                 grantedAuthority.getAuthority()
-                                        .equals("ADMIN")
+                                        .equals(Role.ADMIN.getCode())
                 );
     }
 
@@ -95,4 +122,11 @@ public class UserService implements UserDetailsService {
         return true;
     }
 
+    public boolean existsByLogin(String login){
+        return userRepository.existsByLogin(login);
+    }
+
+    public User getAuthenticatedUser(){
+        return (User) loadUserByUsername(getAuthenticatedUsername());
+    }
 }

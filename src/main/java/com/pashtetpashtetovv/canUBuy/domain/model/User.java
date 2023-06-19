@@ -2,7 +2,6 @@ package com.pashtetpashtetovv.canUBuy.domain.model;
 
 import com.pashtetpashtetovv.canUBuy.config.security.role.Role;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -16,7 +15,7 @@ import java.util.Set;
 public class User implements UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_gen")
     private Long id;
 
     @Length(min = 4, max = 45)
@@ -30,6 +29,17 @@ public class User implements UserDetails {
     private Set<Note> notes;
 
     private Set<Role> roles;
+
+    @ManyToMany
+    private Set<User> friends;
+
+    public Set<User> getFriends() {
+        return friends;
+    }
+
+    public void setFriends(Set<User> friends) {
+        this.friends = friends;
+    }
 
     public User() {
     }

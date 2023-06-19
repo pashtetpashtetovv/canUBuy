@@ -4,7 +4,6 @@ import com.pashtetpashtetovv.canUBuy.domain.model.Line;
 import com.pashtetpashtetovv.canUBuy.domain.model.Note;
 import com.pashtetpashtetovv.canUBuy.repository.LineRepository;
 import com.pashtetpashtetovv.canUBuy.utils.exception.NotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,11 +11,13 @@ import java.util.List;
 @Service
 public class LineService {
 
-    @Autowired
     private final LineRepository lineRepo;
 
-    public LineService(LineRepository lineRepo) {
+    private final NoteService noteService;
+
+    public LineService(LineRepository lineRepo, NoteService noteService) {
         this.lineRepo = lineRepo;
+        this.noteService = noteService;
     }
 
     public Line getById(Long id){
@@ -31,6 +32,11 @@ public class LineService {
     }
 
     public Line create(Line line){
+        return lineRepo.save(line);
+    }
+
+    public Line createAndSetNote(Line line, Long noteID){
+        line.setNote(noteService.findById(noteID));
         return lineRepo.save(line);
     }
 

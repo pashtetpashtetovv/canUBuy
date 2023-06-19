@@ -22,16 +22,18 @@
                     <a class="nav-link" aria-current="page" href="/">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/note/getAll">Notes</a>
+                    <a class="nav-link" href="/note/all">Notes</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/about">About</a>
                 </li>
             </ul>
             <div class="d-flex">
-                <a th:if="${#authentication.name != 'anonymousUser'}" class="btn btn-primary btn-sm me-2" th:text="${#authentication.name}"
+                <a th:if="${#authentication.name != 'anonymousUser'}" class="btn btn-primary btn-sm me-2"
+                   th:text="${#authentication.name}"
                    th:href="@{/user/{login}(login=${#authentication.name})}"></a>
-                <a th:if="${#authentication.name != 'anonymousUser'}" href="/logout" class="btn btn-primary btn-sm me-2">Logout</a>
+                <a th:if="${#authentication.name != 'anonymousUser'}" href="/logout"
+                   class="btn btn-primary btn-sm me-2">Logout</a>
             </div>
         </div>
     </div>
@@ -48,7 +50,43 @@
         <div class="row">
             <div class="col-2"></div>
             <div class="col-8">
-                <h1>Your face: 🤡</h1>
+                <h1>Send friend Request</h1>
+                <form action="#" th:action="@{/friendReq/send}" th:object="${friendRequestDTO}" method="post">
+                    <div class="form-group mt-4">
+                        <label for="loginTo">Enter login here to send friend request</label>
+                        <input type="text" class="form-control" id="loginTo" placeholder="Login" th:field="*{loginTo}"/>
+                        <input type="hidden" th:value="${user.login}" th:attr="name='loginFrom'" />
+                    </div>
+                    <input class="btn btn-primary btn-md px-4 text-center mt-4" type="submit" value="Submit"/>
+                </form>
+                <h1>Friend requests to you</h1>
+                <table class="table table-borderless table-hover">
+                    <thead>
+                    <tr>
+                        <th class="col-2" style="width: 10%">#</th>
+                        <th class="col-4" style="width: 40%">From</th>
+                        <th class="col-1" style="width: 10%">*</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="request, status : ${friendRequests}">
+                        <td th:text="${status.count}"></td>
+                        <td>
+                            <span th:text="${request.requester.login}" class="text-break"></span>
+                        </td>
+                        <td>
+<!--                            <form action="#" th:action="@{/friendReq/accept}" th:object="${request}" method="post">-->
+<!--                                <input type="hidden" th:value="${request.requester}" th:attr="name='requester'" />-->
+<!--                                <input type="hidden" th:value="${request.target}" th:attr="name='target'" />-->
+<!--                                <button class="btn btn-primary bt-sm" type="submit">confirm</button>-->
+<!--                            </form>-->
+                            <form action="#" th:action="@{/friendReq/accept/} + ${request.id}"
+                                  method="post">
+                                <button class="btn btn-primary bt-sm" type="submit">accept</button>
+                            </form>
+                        </td>
+                    </tr>
+                </table>
             </div>
             <div class="col-2"></div>
         </div>

@@ -22,7 +22,7 @@
                     <a class="nav-link" aria-current="page" href="/">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="/note/getAll">Notes</a>
+                    <a class="nav-link active" href="/note/all">Notes</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/about">About</a>
@@ -42,9 +42,8 @@
             <div class="col-2"></div>
             <div class="col-8">
                 <h1>All your notes</h1>
-                <!--h3 class="text-center mt-2 mb-2" th:text="${note.description}"></h3-->
                 <a href="/note/create"
-                   class="btn btn-primary btn-sm px-2">Add new note 🤮</a>
+                   class="btn btn-primary btn-sm px-2">Add new note 🎯</a>
             </div>
             <div class="col-2"></div>
         </div>
@@ -65,10 +64,10 @@
                         <td th:text="${status.count}"></td>
                         <td>
                             <a th:href="@{/note/{id}(id=${note.id})}">
-                                <span th:text="${note.title}"></span>
+                                <span th:text="${note.title}" class="text-break"></span>
                             </a>
                         </td>
-                        <td th:text="${note.description}"></td>
+                        <td class="text-break" th:text="${note.description}"></td>
                         <td>
                             <form action="#" th:action="@{/note/delete?noteID=} + ${note.id}" method="post">
                                 <button class="btn btn-primary bt-sm" type="submit">Delete</button>

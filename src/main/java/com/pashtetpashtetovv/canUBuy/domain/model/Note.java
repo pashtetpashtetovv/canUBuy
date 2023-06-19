@@ -5,13 +5,14 @@ import org.springframework.stereotype.Component;
 import jakarta.persistence.*;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Component
 public class Note {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "note_gen")
     private Long id;
 
     private String title;
@@ -19,11 +20,14 @@ public class Note {
     private String description;
 
     @OneToMany(targetEntity=Line.class, cascade = CascadeType.ALL, mappedBy="note", orphanRemoval = true)
-    private List<Line> lines;
+    private Set<Line> lines;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "owner")
     private User owner;
+
+    @ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
+    private Set<User> subscribers;
 
     public Note(){}
 
@@ -69,7 +73,7 @@ public class Note {
         this.title = title;
     }
 
-    public List<Line> getLines() {
+    public Set<Line> getLines() {
         return lines;
     }
 

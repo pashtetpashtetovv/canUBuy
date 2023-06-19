@@ -1,6 +1,5 @@
 package com.pashtetpashtetovv.canUBuy.domain.model;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import jakarta.persistence.*;
@@ -10,12 +9,11 @@ import jakarta.persistence.*;
 public class Line {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "line_gen")
     private Long id;
 
     private String description;
 
-    @Autowired
     @ManyToOne(targetEntity = Note.class, fetch = FetchType.LAZY)
     private Note note;
 

@@ -1,4 +1,4 @@
-package com.pashtetpashtetovv.canUBuy.domain.buider;
+package com.pashtetpashtetovv.canUBuy.domain.builder;
 
 import com.pashtetpashtetovv.canUBuy.domain.model.Note;
 import com.pashtetpashtetovv.canUBuy.domain.model.User;

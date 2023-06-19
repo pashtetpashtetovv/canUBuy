@@ -1,6 +1,7 @@
 package com.pashtetpashtetovv.canUBuy.domain.dto;
 
-public class NoteDto {
+
+public class NoteDTO{
 
     private String title;
 
@@ -8,10 +9,10 @@ public class NoteDto {
 
     private String ownerLogin;
 
-    public NoteDto() {
+    public NoteDTO() {
     }
 
-    public NoteDto(String title, String description, String ownerLogin) {
+    public NoteDTO(String title, String description, String ownerLogin) {
         this.title = title;
         this.description = description;
         this.ownerLogin = ownerLogin;

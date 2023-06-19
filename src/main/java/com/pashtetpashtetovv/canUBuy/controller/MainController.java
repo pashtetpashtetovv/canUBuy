@@ -26,4 +26,9 @@ public class MainController {
         return "empty";
     }
 
+    @GetMapping("/success")
+    public String getSuccess(){
+        return "success";
+    }
+
 }

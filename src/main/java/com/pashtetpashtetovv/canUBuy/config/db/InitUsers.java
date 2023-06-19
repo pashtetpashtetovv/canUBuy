@@ -28,38 +28,33 @@ public class InitUsers implements ApplicationRunner {
         createCasualUser();
     }
 
-    private void createAdmin(){
-        User admin = null;
+    private void createAdmin() {
         final String adminLogin = "admin";
         final String adminPassword = "123456";
-        try {
-            admin = (User) userService.loadUserByUsername(adminLogin);
-        } catch(UsernameNotFoundException e){
-            admin = new User();
-        } finally {
-            admin.setLogin(adminLogin);
-            admin.setPassword(adminPassword);
-            HashSet<Role> roles = new HashSet<>();
-            roles.add(Role.USER);
-            roles.add(Role.ADMIN);
-            admin.setRoles(roles);
-            userService.create(admin);
+        if (userService.existsByLogin(adminLogin)) {
+            return;
         }
+        User admin = new User();
+        admin.setLogin(adminLogin);
+        admin.setPassword(adminPassword);
+        HashSet<Role> roles = new HashSet<>();
+        roles.add(Role.USER);
+        roles.add(Role.ADMIN);
+        admin.setRoles(roles);
+        userService.create(admin);
     }
 
-    private void createCasualUser(){
-        User casualUser = null;
+    private void createCasualUser() {
         final String login = "user";
         final String password = "123456";
-        try {
-            casualUser = (User) userService.loadUserByUsername(login);
-        } catch(UsernameNotFoundException e){
-            casualUser = new User();
-        } finally {
-            casualUser.setLogin(login);
-            casualUser.setPassword(password);
-            casualUser.setRoles(Collections.singleton(Role.USER));
-            userService.create(casualUser);
+        if (userService.existsByLogin(login)) {
+            return;
         }
+        User casualUser = new User();
+        casualUser.setLogin(login);
+        casualUser.setPassword(password);
+        casualUser.setRoles(Collections.singleton(Role.USER));
+        userService.create(casualUser);
     }
+
 }

@@ -1,13 +1,13 @@
 package com.pashtetpashtetovv.canUBuy.service;
 
-import com.pashtetpashtetovv.canUBuy.domain.dto.NoteDto;
+import com.pashtetpashtetovv.canUBuy.domain.dto.NoteDTO;
 import com.pashtetpashtetovv.canUBuy.domain.model.Line;
 import com.pashtetpashtetovv.canUBuy.domain.model.Note;
 import com.pashtetpashtetovv.canUBuy.utils.exception.NotFoundException;
 import com.pashtetpashtetovv.canUBuy.mapper.NoteMapper;
 import com.pashtetpashtetovv.canUBuy.repository.NoteRepository;
-import com.pashtetpashtetovv.canUBuy.utils.exception.RestrictedAccessException;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
@@ -16,14 +16,13 @@ import java.util.List;
 @Service
 public class NoteService {
 
-    @Autowired
     private final NoteRepository noteRepo;
 
-    @Autowired
     private final NoteMapper noteMapper;
 
-    @Autowired
     private final UserService userService;
+
+    private static final Logger log = LoggerFactory.getLogger(NoteService.class);
 
     public NoteService(NoteRepository noteRepo, NoteMapper noteMapper, UserService userService){
         this.noteRepo = noteRepo;
@@ -39,7 +38,7 @@ public class NoteService {
         return noteRepo.save(note);
     }
 
-    public Note createNote(NoteDto dto){
+    public Note createNote(NoteDTO dto){
         dto.setOwnerLogin(userService.getAuthenticatedUsername());
         final Note note = noteMapper.toEntity(dto);
         return noteRepo.save(note);
@@ -55,9 +54,7 @@ public class NoteService {
 
         final String ownerLogin =
                 note.getOwner() == null ? null : note.getOwner().getLogin();
-
         userService.isUserFreeToSeePage(ownerLogin);
-
         return note;
     }
 
@@ -66,10 +63,8 @@ public class NoteService {
                 .orElseThrow(
                         ()-> new NotFoundException(String.format("Note with id: %d not found", id))
                 );
-
         final String ownerLogin =
                 note.getOwner() == null ? null : note.getOwner().getLogin();
-
         userService.isUserFreeToSeePage(ownerLogin);
 
         model.addAttribute("line", new Line());
@@ -101,4 +96,5 @@ public class NoteService {
                 userService.getAuthenticatedUsername()
         );
     }
+
 }

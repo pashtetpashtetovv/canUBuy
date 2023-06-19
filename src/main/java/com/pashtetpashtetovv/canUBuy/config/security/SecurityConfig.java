@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.stereotype.Component;
 
 import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
 
@@ -32,7 +33,7 @@ public class SecurityConfig {
                 .and()
                 //.formLogin();
                 .formLogin()
-                    .defaultSuccessUrl("/note/getAll")
+                    .defaultSuccessUrl("/note/all")
                     .loginPage("/login")
                     .permitAll();
         return http.build();
